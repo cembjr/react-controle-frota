@@ -12,7 +12,7 @@ namespace ControleFrota.Api.Controllers
     [ApiController]
     public class BaseController : Controller
     {
-        public IActionResult Response(ResponseResult result) 
+        public new IActionResult Response(ResponseResult result) 
         {
             return result.IsSucesso ? (IActionResult) BadRequest(result.Data) : Ok(result.Data);
         }
