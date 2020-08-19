@@ -1,9 +1,9 @@
 import React from "react";
-import Input from "../../../components/Input/input";
-import InputTelefone from "../../../components/InputTelefone/input-telefone";
-import DefaultButton from "../../../components/Button/DefaultButton";
+import Input from "../../components/Input/input";
+import InputTelefone from "../../components/InputTelefone/input-telefone";
+import DefaultButton from "../../components/Button/DefaultButton";
 
-import { Atendente } from "../../../Models/Atendente";
+import { Atendente } from "../../Models/Atendente";
 
 interface AtendenteFormProps {
   tipo: "inclusao" | "alteracao";

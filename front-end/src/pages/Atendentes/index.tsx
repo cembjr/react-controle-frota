@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect } from "react";
-import AtendenteForm from "./Form/atendenteForm";
+import AtendenteForm from "./atendenteForm";
 import ListaAtendentes from "./listaAtendentes";
 import { Atendente } from "../../Models/Atendente";
 import api from "../../services/api";
 import FuncoesUtilitarias from "../../utils/FuncoesUtilitarias";
 
 const Atendentes: React.FC = () => {
-  const url = "api/atendente";
+  const url = "api/atendentes";
   const [tipo, setTipo] = useState<"inclusao" | "alteracao">("alteracao");
   const [lstAtendentes, setLstAtendentes] = useState<Atendente[]>([]);
   const [atendente, setAtendente] = useState<Atendente>();
@@ -15,15 +15,15 @@ const Atendentes: React.FC = () => {
   const [telefone, setTelefone] = useState("");
 
   useEffect(() => {
-      setNome(atendente?.nome|| "");
-      setTelefone(atendente?.telefone || " ");
+    setNome(atendente?.nome || "");
+    setTelefone(atendente?.telefone || " ");
   }, [atendente]);
 
   const obterListaAtendentes = useCallback(() => {
     api
       .get<Atendente[]>(url)
       .then((resp) =>
-          setLstAtendentes(() =>
+        setLstAtendentes(() =>
           resp.data.sort((a, b) => a.nome.localeCompare(b.nome))
         )
       );
@@ -80,7 +80,6 @@ const Atendentes: React.FC = () => {
   const handleEdit = (atd: Atendente) => {
     alterarTipo("alteracao");
     setAtendente(atd);
-
   };
 
   const handleDelete = async (id: string) => {

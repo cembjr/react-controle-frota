@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
 
 namespace ControleFrota.Api
 {
@@ -31,12 +32,22 @@ namespace ControleFrota.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IAtendenteRepository, AtendenteRepository>();
+            services.AddTransient<IVeiculoRepository, VeiculoRepository>();
+            services.AddTransient<IMotoristaRepository, MotoristaRepository>();
+            services.AddTransient<IServicoRepository, ServicoRepository>();
+
             services.AddDbContext<ControleFrotaContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("controleFrota")));
-            services.AddCors(opt => {
-                opt.AddPolicy(name:CorsPolice, builder => {
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy(name: CorsPolice, builder =>
+                {
                     builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
                 });
             });
+
             services.AddControllers();
         }
 
