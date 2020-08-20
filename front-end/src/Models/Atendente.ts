@@ -1,5 +1,5 @@
 export interface Atendente {
-  id:string;
+  id: string;
   nome: string;
   telefone: string;
 }

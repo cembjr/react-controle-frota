@@ -1,19 +1,8 @@
-import React, { InputHTMLAttributes } from 'react';
-import MaskedInput from 'react-text-mask';
-import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-      },
-    },
-  }),
-);
+import React, { InputHTMLAttributes } from "react";
+import MaskedInput from "react-text-mask";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 interface TextMaskCustomProps {
   inputRef: (ref: HTMLInputElement | null) => void;
@@ -28,8 +17,25 @@ function TextMaskCustom(props: TextMaskCustomProps) {
       ref={(ref: any) => {
         inputRef(ref ? ref.inputElement : null);
       }}
-      mask={['(', /\d/, /\d/, ')', ' ', /\d/,' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-      placeholderChar={'\u2000'}
+      mask={[
+        "(",
+        /\d/,
+        /\d/,
+        ")",
+        " ",
+        /\d/,
+        " ",
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/,
+        "-",
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/,
+      ]}
+      placeholderChar={"\u2000"}
       showMask
     />
   );
@@ -40,12 +46,14 @@ interface InputTelefoneProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange(evt: React.ChangeEvent<HTMLInputElement>): void;
 }
 
-const InputTelefone: React.FC<InputTelefoneProps> = ({ value, onChange, ...props }) => {
-  const classes = useStyles();
-
+const InputTelefone: React.FC<InputTelefoneProps> = ({
+  value,
+  onChange,
+  width,
+}) => {
   return (
-    <div className={classes.root}>
-      <FormControl>
+    <div className="form-group">
+      <FormControl style={{ width: `${width || "100%"}` }}>
         <InputLabel htmlFor="formatted-text-mask-input">Telefone: </InputLabel>
         <Input
           value={value}
@@ -57,5 +65,5 @@ const InputTelefone: React.FC<InputTelefoneProps> = ({ value, onChange, ...props
       </FormControl>
     </div>
   );
-}
+};
 export default InputTelefone;

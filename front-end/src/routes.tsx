@@ -1,14 +1,16 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import Sobre from "./pages/Sobre/sobre";
-import Atendentes from "./pages/Atendentes";
-import Home from "./pages/Home/home";
+import SobrePage from "./Pages/Sobre";
+import AtendentesPage from "./Pages/Atendentes";
+import HomePage from "./Pages/Home";
+import MotoristasPage from "./Pages/Motorista";
 
 const Routes: React.FC = () => (
   <Switch>
-    <Route path="/" exact component={Home} />
-    <Route path="/atendentes" component={Atendentes} />
-    <Route path="/sobre" component={Sobre} />
+    <Route path="/" exact component={HomePage} />
+    <Route path="/atendentes" component={AtendentesPage} />
+    <Route path="/motoristas" component={MotoristasPage} />    
+    <Route path="/sobre" component={SobrePage} />
   </Switch>
 );
 

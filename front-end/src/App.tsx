@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, CssBaseline, Typography } from "@material-ui/core";
-import GlobalStyle from "./styles/global";
-import Menu from "./components/Menu/menu";
+import GlobalStyle from "./Styles/global";
+import Menu from "./Components/Menu/Menu";
 import { BrowserRouter } from "react-router-dom";
 import Routes from "./routes";
 
@@ -9,8 +9,8 @@ function App() {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="md">
-        <Typography component="div" style={{ height: "100vh" }}>
+      <Container maxWidth="lg" style={{ height: "100vh", width: "100vw" }}>
+        <Typography component="div">
           <BrowserRouter>
             <Menu />
             <Routes />
