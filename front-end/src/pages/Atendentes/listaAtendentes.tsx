@@ -1,6 +1,9 @@
 import React from "react";
 import { Atendente } from "../../Models/Atendente";
 import FuncoesUtilitarias from "../../utils/FuncoesUtilitarias";
+import Table from "../../components/Table/Table";
+import EditButton from "../../components/Button/EditButton";
+import DeleteButton from "../../components/Button/DeleteButton";
 
 interface ListaAtendentesProps {
   atendentes: Atendente[];
@@ -15,35 +18,18 @@ const ListaAtendentes: React.FC<ListaAtendentesProps> = ({
 }) => {
   return (
     <>
-      <table className="table">
-        <thead className="table-dark">
-          <tr>
-            <th>Nome</th>
-            <th>Telefone</th>
-            <th></th>
+      <Table colunas={["Nome", "Telefone"]}>
+        {atendentes.map((atendente) => (
+          <tr key={atendente.id}>
+            <td>{atendente.nome}</td>
+            <td>{FuncoesUtilitarias.formatarTelefone(atendente.telefone)}</td>
+            <td className="text-right">
+              <EditButton action={() => handleEdit(atendente)} />
+              <DeleteButton action={() => handleDelete(atendente.id)} />
+            </td>
           </tr>
-        </thead>
-        <tbody className="table-hover">
-          {atendentes.map((atendente) => (
-            <tr key={atendente.id}>
-              <td>{atendente.nome}</td>
-              <td>{FuncoesUtilitarias.formatarTelefone(atendente.telefone)}</td>
-              <td>
-                <div className="text-right">
-                  <span
-                    className="btn btn-warning fa fa-pencil"
-                    onClick={() => handleEdit(atendente)}
-                  ></span>
-                  <span
-                    className="btn btn-danger fa fa-trash"
-                    onClick={() => handleDelete(atendente.id)}
-                  ></span>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        ))}
+      </Table>
     </>
   );
 };
