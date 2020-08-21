@@ -33,7 +33,6 @@ namespace ControleFrota.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Obter(Guid id) => Ok(mapper.Map<VeiculoDTO>(await veiculoRepository.ObterPorId(id)));
 
-        [Route("")]
         [Route("salvar")]
         [HttpPost]
         public async Task<IActionResult> Salvar([FromBody] VeiculoDTO veiculo)

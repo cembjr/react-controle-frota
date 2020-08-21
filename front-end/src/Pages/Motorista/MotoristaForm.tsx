@@ -6,14 +6,14 @@ import InputTelefone from "../../Components/InputTelefone/InputTelefone";
 import { ButtonsSalvarLimpar } from "../../Components/Button/ButtonsSalvarLimpar";
 import { DivFlex } from "../../Components/Div/DivFlex";
 
-interface MotoristaForm {
+interface MotoristaFormProps {
   tipo: string;
   motorista: Motorista;
   handleForm(motorista: Motorista): any;
   limpar(): void;
 }
 
-export const MotoristaForm: React.FC<MotoristaForm> = ({
+export const MotoristaForm: React.FC<MotoristaFormProps> = ({
   tipo,
   handleForm,
   limpar,
