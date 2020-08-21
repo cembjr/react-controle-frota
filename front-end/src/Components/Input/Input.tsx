@@ -19,7 +19,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="form-group">
-      <FormControl style={{ width: `${width || "100%" }` }}>
+      <FormControl style={{ width: `${width || "100%" }`, padding: "0 10px 0 0" }}>
         <InputLabel htmlFor="formatted-text-mask-input">{label} </InputLabel>
         <InputMaterial
           type={type || "text"}

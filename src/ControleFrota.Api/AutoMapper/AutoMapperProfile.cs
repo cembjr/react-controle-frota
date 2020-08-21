@@ -10,7 +10,7 @@ namespace ControleFrota.Api.AutoMapper
         {
             CreateMap<AtendenteDTO, Atendente>().ReverseMap();
             CreateMap<VeiculoDTO, Veiculo>().ReverseMap();
-            CreateMap<Motorista, Motorista>().ReverseMap();
+            CreateMap<MotoristaDTO, Motorista>().ReverseMap();
             CreateMap<ServicoDTO, Servico>().ReverseMap();
         }
     }

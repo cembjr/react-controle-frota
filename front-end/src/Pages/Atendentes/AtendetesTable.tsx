@@ -5,13 +5,13 @@ import Table from "../../Components/Table/Table";
 import EditButton from "../../Components/Button/EditButton";
 import DeleteButton from "../../Components/Button/DeleteButton";
 
-interface ListaAtendentesProps {
+interface AtendentesTableProps {
   atendentes: Atendente[];
   handleEdit(atendente: Atendente): void;
   handleDelete(id: string): void;
 }
 
-const ListaAtendentes: React.FC<ListaAtendentesProps> = ({
+export const AtendentesTable: React.FC<AtendentesTableProps> = ({
   atendentes,
   handleEdit,
   handleDelete,
@@ -33,5 +33,3 @@ const ListaAtendentes: React.FC<ListaAtendentesProps> = ({
     </>
   );
 };
-
-export default ListaAtendentes;

@@ -53,7 +53,7 @@ const InputTelefone: React.FC<InputTelefoneProps> = ({
 }) => {
   return (
     <div className="form-group">
-      <FormControl style={{ width: `${width || "100%"}` }}>
+      <FormControl style={{ width: `${width || "100%"}`, padding: "0 10px 0 0"  }}>
         <InputLabel htmlFor="formatted-text-mask-input">Telefone: </InputLabel>
         <Input
           value={value}

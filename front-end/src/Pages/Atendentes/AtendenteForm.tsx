@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../Components/Input/Input";
 import InputTelefone from "../../Components/InputTelefone/InputTelefone";
 
@@ -9,35 +9,37 @@ import { ButtonsSalvarLimpar } from "../../Components/Button/ButtonsSalvarLimpar
 
 interface AtendenteFormProps {
   tipo: "inclusao" | "alteracao";
-  atendente?: Atendente;
-  nome: string;
-  telefone: string;
-  handleForm(): void;
-  handleNomeChange(evt: React.ChangeEvent<HTMLInputElement>): void;
-  handleTelefoneChange(evt: React.ChangeEvent<HTMLInputElement>): void;
+  atendente: Atendente;
+  handleForm(atendente: Atendente): void;
   limpar(): void;
 }
 
 const AtendenteForm: React.FC<AtendenteFormProps> = ({
   tipo,
-  nome,
-  telefone,
   handleForm,
-  handleNomeChange,
-  handleTelefoneChange,
+  atendente,
   limpar,
 }) => {
+
+  const [nome, setNome] = useState("");
+  const [telefone, setTelefone] = useState("");
+
+  useEffect(() => {
+    setNome(atendente.nome || "");
+    setTelefone(atendente.telefone || " ");
+  }, [atendente]);
+
   const titulo =
     tipo === "inclusao" ? "Cadastrar novo atendente" : "Alterar atendente";
   return (
     <>
       <Form> 
         <h1>{titulo}</h1>
-        <Input label="Nome" value={nome} onChange={handleNomeChange} />
+        <Input label="Nome" value={nome} onChange={evt => setNome(evt.target.value)} />
         <DivFlex>
-          <InputTelefone value={telefone} onChange={handleTelefoneChange} />
+          <InputTelefone value={telefone} onChange={evt => setTelefone(evt.target.value)} />
           <ButtonsSalvarLimpar
-            handleSalvar={handleForm}
+            handleSalvar={() => handleForm({id: atendente.id, nome, telefone})}
             handleLimpar={limpar}
           />
         </DivFlex>

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import AtendenteForm from "./AtendenteForm";
-import ListaAtendentes from "./ListaAtendentes";
+import { AtendentesTable } from "./AtendetesTable";
 import { Atendente } from "../../Models/Atendente";
 import api from "../../Services/api";
 import FuncoesUtilitarias from "../../Utils/FuncoesUtilitarias";
@@ -9,15 +9,7 @@ const AtendentesPage: React.FC = () => {
   const url = "api/atendentes";
   const [tipo, setTipo] = useState<"inclusao" | "alteracao">("alteracao");
   const [lstAtendentes, setLstAtendentes] = useState<Atendente[]>([]);
-  const [atendente, setAtendente] = useState<Atendente>();
-
-  const [nome, setNome] = useState("");
-  const [telefone, setTelefone] = useState("");
-
-  useEffect(() => {
-    setNome(atendente?.nome || "");
-    setTelefone(atendente?.telefone || " ");
-  }, [atendente]);
+  const [atendente, setAtendente] = useState<Atendente>(new Atendente());
 
   const obterListaAtendentes = useCallback(() => {
     api
@@ -30,17 +22,16 @@ const AtendentesPage: React.FC = () => {
   }, []);
 
   const limpar = useCallback((): void => {
-    setNome("");
-    setTelefone(" ");
     setTipo("inclusao");
     obterListaAtendentes();
-  }, [setNome, setTelefone, setTipo, obterListaAtendentes]);
+    setAtendente(new Atendente());
+  }, [setTipo, obterListaAtendentes, setAtendente]);
 
-  const handleForm = async (): Promise<void> => {
-    const tel = FuncoesUtilitarias.removerCaracteresNaoNumericos(telefone);
-    const id = atendente?.id;
-    
-    if (!nome || !tel) {
+  const handleForm = async (atendente: Atendente): Promise<void> => {
+    let { id, nome, telefone } = atendente;
+    telefone = FuncoesUtilitarias.removerCaracteresInvalidos(telefone);
+
+    if (!nome || !telefone) {
       alert("Nome e Telefone obrigatórios.");
       return;
     }
@@ -48,26 +39,19 @@ const AtendentesPage: React.FC = () => {
     if (tipo === "inclusao")
       await api.post(url, {
         nome,
-        telefone: tel,
+        telefone,
       });
 
     if (tipo === "alteracao")
       await api.put(`${url}/atualizar/${id}`, {
         id,
         nome,
-        telefone: tel,
+        telefone,
       });
 
     limpar();
   };
 
-  const handleNomeChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setNome(evt.target.value);
-  };
-
-  const handleTelefoneChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setTelefone(evt.target.value);
-  };
 
   useEffect(() => {
     limpar();
@@ -92,15 +76,11 @@ const AtendentesPage: React.FC = () => {
       <AtendenteForm
         tipo={tipo}
         atendente={atendente}
-        nome={nome}
-        telefone={telefone}
         handleForm={handleForm}
-        handleNomeChange={handleNomeChange}
-        handleTelefoneChange={handleTelefoneChange}
         limpar={limpar}
       />
       <br />
-      <ListaAtendentes
+      <AtendentesTable
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         atendentes={lstAtendentes}
