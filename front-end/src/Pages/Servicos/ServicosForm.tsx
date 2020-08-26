@@ -4,7 +4,6 @@ import { Motorista } from "../../Models/Motorista";
 import { Veiculo } from "../../Models/Veiculo";
 import { ServicoService } from "../../Services/ServicoService";
 import { DivFlex } from "../../Components/Div/DivFlex";
-import InputTelefone from "../../Components/InputTelefone/InputTelefone";
 import { ButtonsSalvarLimpar } from "../../Components/Button/ButtonsSalvarLimpar";
 import { Servico } from "../../Models/Servico";
 import { InputData } from "../../Components/InputData/InputData";
@@ -14,23 +13,28 @@ import { SimpleSelect } from "../../Components/Select/SimpleSelect";
 import { KeyValue } from "../../Models/KeyValue";
 
 interface ServicosFormProps {
-  titulo: string;
+  tipo: string;
+  servico: Servico | undefined;
+  handleForm(servico: Servico): any;
+  limpar(): void;
 }
 
-export const ServicosForm: React.FC<ServicosFormProps> = ({ titulo }) => {
+export const ServicosForm: React.FC<ServicosFormProps> = (
+  props: ServicosFormProps
+) => {
   const [atendentes, setAtendentes] = useState<Atendente[]>([]);
   const [motoristas, setMotoristas] = useState<Motorista[]>([]);
   const [veiculos, setVeiculos] = useState<Veiculo[]>([]);
 
-  const [dataSaida, setDataSaida] = useState<Date>(new Date());
-  const [dataChegada, setDataChegada] = useState<Date | null>(null);
+  const [dataSaida, setDataSaida] = useState<Date>(new Date(2020,0,1));
+  const [dataChegada, setDataChegada] = useState<Date>(new Date(2020,0,1));
   const [destino, setDestino] = useState("");
   const [observacao, setObservacao] = useState("");
   const [kmInicial, setKmInicial] = useState(0);
   const [kmFinal, setKmFinal] = useState(0);
-  const [idMotorista, setIdMotorista] = useState("");
-  const [idAtendente, setIdAtendente] = useState("");
-  const [idVeiculo, setIdVeiculo] = useState("");
+  const [idMotorista, setIdMotorista] = useState<string | undefined>("");
+  const [idAtendente, setIdAtendente] = useState<string | undefined>("");
+  const [idVeiculo, setIdVeiculo] = useState<string | undefined>("");
 
   const [servicoService] = useState<ServicoService>(new ServicoService());
 
@@ -45,102 +49,111 @@ export const ServicosForm: React.FC<ServicosFormProps> = ({ titulo }) => {
   }, [carregarListar]);
 
   const preencher = (servico: Servico) => {
-    setDataSaida(servico.dataSaida);
-    setDataChegada(servico.dataChegada);
+    setDataSaida(servico.saida|| new Date());
+    setDataChegada(servico.chegada || new Date());
     setDestino(servico.destino);
     setObservacao(servico.observacao);
     setKmInicial(servico.kmInicial);
-    setKmFinal(servico.kmfinal);
+    setKmFinal(servico.kmFinal);
     setIdMotorista(servico.idMotorista);
     setIdAtendente(servico.idAtendente);
     setIdVeiculo(servico.idVeiculo);
   };
-  const limpar = () => {
-    preencher(new Servico());
-  };
 
-  const handleSalvar = () => {
-    console.log({
-      dataSaida,
-      dataChegada,
-      destino,
-      observacao,
-      kmInicial,
-      kmFinal,
-      idMotorista,
-      idAtendente,
-      idVeiculo,
-    });
-  };
+  useEffect(() => {
+    preencher(props.servico || new Servico());
+  },[props.servico])
+
+  function obterServico(): Servico {
+    const servico = new Servico();
+    servico.id = props.servico?.id || "";
+    servico.saida = dataSaida;
+    servico.chegada = dataChegada;
+    servico.destino = destino;
+    servico.observacao = observacao;
+    servico.kmInicial = kmInicial;
+    servico.kmFinal = kmFinal;
+    servico.idMotorista = idMotorista || "";
+    servico.idAtendente = idAtendente  || "";
+    servico.idVeiculo = idVeiculo  || "";
+
+    return servico;
+  }
 
   return (
     <>
-      <Form>
-        <InputData
-          label="Data Saída"
-          value={dataSaida}
-          handleChange={(data: Date) => setDataSaida(data)}
-        />
-        <InputData
-          label="Data Chegada"
-          value={dataChegada}
-          handleChange={(data: Date | null) => setDataChegada(data)}
-        />
+      <Form width="70%">
+        <DivFlex>
+          <InputData
+            label="Data Saída"
+            value={dataSaida}
+            handleChange={(data: Date) =>setDataSaida(data)}
+          />
+          <InputData
+            label="Data Chegada"
+            value={dataChegada}
+            handleChange={(data: Date) => setDataChegada(data)}
+          />
+        </DivFlex>
+        <DivFlex>
+          <SimpleSelect
+            label="Atendentes"
+            value={idAtendente || ''}
+            onChange={(evt: React.ChangeEvent<HTMLSelectElement>) =>
+              setIdAtendente(evt.target.value)
+            }
+            itens={atendentes.map((atd) => new KeyValue(atd.id, atd.nome))}
+          />
 
-        <SimpleSelect
-          label="Atendentes"
-          value={idAtendente}
-          onChange={(evt: React.ChangeEvent<HTMLSelectElement>) =>
-            setIdAtendente(evt.target.value)
-          }
-          itens={atendentes.map((atd) => new KeyValue(atd.id, atd.nome))}
-        />
-
-        <SimpleSelect
-          label="Motoristas"
-          value={idMotorista}
-          onChange={(evt: React.ChangeEvent<HTMLSelectElement>) =>
-            setIdMotorista(evt.target.value)
-          }
-          itens={motoristas.map(
-            (motorista) => new KeyValue(motorista.id, motorista.nome)
-          )}
-        />
-
-        <SimpleSelect
-          label="Veiculos"
-          value={idVeiculo}
-          onChange={(evt: React.ChangeEvent<HTMLSelectElement>) =>
-            setIdVeiculo(evt.target.value)
-          }
-          itens={veiculos.map((veic) => new KeyValue(veic.id, veic.placa))}
-        />
-
+          <SimpleSelect
+            label="Motoristas"
+            value={idMotorista || ''}
+            onChange={(evt: React.ChangeEvent<HTMLSelectElement>) =>
+              setIdMotorista(evt.target.value)
+            }
+            itens={motoristas.map(
+              (motorista) => new KeyValue(motorista.id, motorista.nome)
+            )}
+          />
+        </DivFlex>
+        <DivFlex>
+          <SimpleSelect
+            width="50%"
+            label="Veiculos"
+            value={idVeiculo || ''}
+            onChange={(evt: React.ChangeEvent<HTMLSelectElement>) =>
+              setIdVeiculo(evt.target.value)
+            }
+            itens={veiculos.map((veic) => new KeyValue(veic.id, veic.placa))}
+          />
+        </DivFlex>
         <Input
-          value={destino}
+          width="100%"
+          value={destino || ''}
           onChange={(evt) => setDestino(evt.target.value)}
           label="Destino"
         />
         <Input
-          value={observacao}
+          value={observacao || ''}
           onChange={(evt) => setObservacao(evt.target.value)}
           label="Observação"
         />
-        <Input
-          value={kmInicial.toString()}
-          onChange={(evt) => setKmInicial(Number(evt.target.value))}
-          label="KM Final"
-        />
-        <Input
-          value={kmFinal.toString()}
-          onChange={(evt) => setKmFinal(Number(evt.target.value))}
-          label="KM Final"
-        />
-
-        <ButtonsSalvarLimpar
-          handleLimpar={limpar}
-          handleSalvar={handleSalvar}
-        />
+        <DivFlex>
+          <Input
+            value={kmInicial?.toString() || ''}
+            onChange={(evt) => setKmInicial(Number(evt.target.value))}
+            label="KM Inicial"
+          />
+          <Input
+            value={kmFinal?.toString() || ''}
+            onChange={(evt) => setKmFinal(Number(evt.target.value))}
+            label="KM Final"
+          />
+          <ButtonsSalvarLimpar
+            handleLimpar={props.limpar}
+            handleSalvar={() => props.handleForm(obterServico())}
+          />
+        </DivFlex>
       </Form>
     </>
   );

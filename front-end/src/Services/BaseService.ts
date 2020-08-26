@@ -14,8 +14,8 @@ export abstract class BaseService<T> {
     return api.post(`${this.url}/salvar`, ent);
   }
 
-  public atualizar(ent: T): Promise<AxiosResponse<void>> {
-    return api.put(`${this.url}/atualizar`, ent);
+  public atualizar(ent: T, id: String): Promise<AxiosResponse<void>> {
+    return api.put(`${this.url}/atualizar/${id}`, ent);
   }
 
   public deletar(id: string): Promise<AxiosResponse<void>> {

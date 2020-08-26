@@ -7,12 +7,13 @@ interface SimpleSelectProps {
   value: string;
   onChange: any;
   itens: KeyValue[];
+  width?: string;
 }
 export const SimpleSelect: React.FC<SimpleSelectProps> = (
   props: SimpleSelectProps
 ) => {
   return (
-    <FormControl style={{ width: "100%" }}>
+    <FormControl style={{ width: `${props.width || "100%" }`, padding: "0 10px 0 0"}}>
       <InputLabel>{props.label}</InputLabel>
       <Select value={props.value} onChange={props.onChange}>
         {props.itens.map((item) => (
