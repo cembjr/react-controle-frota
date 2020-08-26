@@ -5,6 +5,7 @@ import AtendentesPage from "./Pages/Atendentes";
 import HomePage from "./Pages/Home";
 import MotoristasPage from "./Pages/Motorista";
 import { VeiculoPage } from "./Pages/Veiculo";
+import { ServicosPage } from "./Pages/Servicos";
 
 const Routes: React.FC = () => (
   <Switch>
@@ -12,6 +13,7 @@ const Routes: React.FC = () => (
     <Route path="/atendentes" component={AtendentesPage} />
     <Route path="/motoristas" component={MotoristasPage} />    
     <Route path="/veiculos" component={VeiculoPage} />
+    <Route path="/servicos" component={ServicosPage} />
     <Route path="/sobre" component={SobrePage} />
   </Switch>
 );

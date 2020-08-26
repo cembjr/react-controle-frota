@@ -18,6 +18,9 @@ const Menu: React.FC = () => {
           <Link to="/veiculos">
             <span className="nav-item nav-link">Veiculos</span>
           </Link>
+          <Link to="/servicos">
+            <span className="nav-item nav-link">Serviços</span>
+          </Link>
           <Link to="/sobre">
             <span className="nav-item nav-link">Sobre</span>
           </Link>
