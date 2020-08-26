@@ -22,6 +22,7 @@ const MotoristasPage: React.FC = () => {
 
   const handleForm = async (motorista: Motorista) => {
     let { id, nome, telefone, cnh } = motorista;
+    
     telefone = FuncoesUtilitarias.removerCaracteresInvalidos(telefone);
 
     if (tipo === "inclusao")

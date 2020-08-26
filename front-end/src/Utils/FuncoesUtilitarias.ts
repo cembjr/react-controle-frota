@@ -3,6 +3,7 @@ import { format } from "date-fns";
 export default class FuncoesUtilitarias {
   public static removerCaracteresInvalidos(valor: string): string {
     return valor
+      .replace(" ", "")  
       .replace("(", "")
       .replace(")", "")
       .replace("-", "")
